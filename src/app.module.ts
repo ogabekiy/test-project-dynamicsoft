@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { SharedModule } from './common/shared.module';
+import { Category } from './categories/entities/category.entity';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { SharedModule } from './common/shared.module';
         username: 'postgres',
         password: '123456',
         database: 'test_ecommerce_db',
-        entities: [User],
+        entities: [User,Category],
         synchronize: true
       }),
   UsersModule, CategoriesModule, ProductsModule, BasketsModule, OrdersModule, AuthModule,SharedModule],

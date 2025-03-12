@@ -49,7 +49,7 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: string,@Request() req:any) {
     const authData = req.user
-    if(authData.id !== +id){
+    if(authData.role !== 'admin' && authData.id !== +id){
       throw new BadRequestException("yu cant update others' profile")
     }
     return this.usersService.remove(+id);

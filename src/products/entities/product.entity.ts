@@ -1,5 +1,6 @@
 import { Basket } from "src/baskets/entities/basket.entity";
 import { Category } from "src/categories/entities/category.entity";
+import { Order } from "src/orders/entities/order.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "products" })
@@ -27,4 +28,7 @@ export class Product {
 
     @OneToMany(() => Basket, (basket) => basket.product) 
     baskets: Basket[];
+
+    @OneToMany(() => Order, (order) => order.product) 
+    orders: Order[];
 }

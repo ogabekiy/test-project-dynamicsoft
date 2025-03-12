@@ -1,4 +1,5 @@
 import { Basket } from "src/baskets/entities/basket.entity";
+import { Order } from "src/orders/entities/order.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 export enum UserRole {
@@ -25,4 +26,7 @@ export class User {
 
   @OneToMany(() => Basket, (basket) => basket.user) 
   baskets: Basket[];
+
+  @OneToMany(() => Order, (order) => order.user) 
+  orders: Order[];
 }

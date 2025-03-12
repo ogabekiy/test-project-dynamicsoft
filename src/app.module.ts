@@ -11,6 +11,7 @@ import { SharedModule } from './common/shared.module';
 import { Category } from './categories/entities/category.entity';
 import { Product } from './products/entities/product.entity';
 import { Basket } from './baskets/entities/basket.entity';
+import { Order } from './orders/entities/order.entity';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { Basket } from './baskets/entities/basket.entity';
         username: 'postgres',
         password: '123456',
         database: 'test_ecommerce_db',
-        entities: [User,Category,Product,Basket],
+        entities: [User,Category,Product,Basket,Order],
         synchronize: true
       }),
   UsersModule, CategoriesModule, ProductsModule, BasketsModule, OrdersModule, AuthModule,SharedModule],

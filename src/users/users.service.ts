@@ -10,15 +10,14 @@ export class UsersService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>){}
 
   async create(createUserDto: CreateUserDto) {
-
+    
     const userData = await this.findOneByEmail(createUserDto.email)
-
     if(userData){
       throw new ConflictException('this email is used before')
     }
 
     createUserDto.password = await bcrypt.hash(createUserDto.password,10)
-
+    
     const user = this.userRepository.create(createUserDto)
     return await this.userRepository.save(user); 
   }
@@ -39,9 +38,6 @@ export class UsersService {
 
   async findOneByEmail(email: string) {
     const user = await this.userRepository.findOne({where:{email}})
-    if(!user){
-      throw new NotFoundException('user not found')
-    }
     return user
   }
 

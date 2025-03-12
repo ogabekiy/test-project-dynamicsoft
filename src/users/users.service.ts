@@ -37,9 +37,16 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string) {
-    const user = await this.userRepository.findOne({where:{email}})
+    console.log(email);
+    if(!email){
+      throw new Error('email not provided')
+    }
+    const user = await this.userRepository.findOneBy({ email });
+    console.log('email',user);
+    
     return user
-  }
+}
+
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     await this.findOne(id)

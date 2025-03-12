@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { UsersService } from 'src/users/users.service';
@@ -15,6 +15,8 @@ export class AuthService {
   async login(createLoginDto: LoginAuthDto) {
     console.log(createLoginDto);
     const userData = await this.userService.findOneByEmail(createLoginDto.email)
+    console.log(userData);
+    
     if(!userData){
       throw new UnauthorizedException('email or password not valid1')
     }
@@ -39,10 +41,9 @@ export class AuthService {
       throw new UnauthorizedException('refresh token is required');
     }
 
+    const decoded = jwt.verify(refreshToken,this.configService.get('JWT_REFRESH_TOKEN'));
     try {
-      const decoded = jwt.verify(refreshToken,this.configService.get('JWT_REFRESH_TOKEN'),) as { email: string; sub: number };
-
-      const user = await this.userService.findOneByEmail(decoded.email);
+      const user = await this.userService.findOneByEmail(decoded.createLoginDto.email);
       
       const payload = { email: user.email, sub: user.id };
       const newAccessToken = jwt.sign(

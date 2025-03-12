@@ -11,10 +11,14 @@ async function bootstrap() {
     prefix: '/category_uploads',
   });
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({transform: true}));
 
   app.useStaticAssets(join(__dirname, '..', 'categories_images'), {
     prefix: '/categories_images',
+  });
+
+  app.useStaticAssets(join(__dirname, '..', 'product_images'), {
+    prefix: '/product_images',
   });
 
   await app.listen(process.env.PORT ?? 3000);

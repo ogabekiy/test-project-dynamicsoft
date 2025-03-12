@@ -14,7 +14,7 @@ export class CategoriesService {
 
   async create(createCategoryDto: CreateCategoryDto) {
     const category = this.categoryRepository.create(createCategoryDto); 
-    return await this.categoryRepository.save(category);
+    return await this.categoryRepository.save(category); 
   }
 
   async findAll() {

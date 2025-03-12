@@ -5,7 +5,8 @@
 
 #uploads
 /categories_images
-
+/category_uploads
+/product_images
 # Logs
 logs
 *.log

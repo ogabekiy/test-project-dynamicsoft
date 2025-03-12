@@ -9,6 +9,7 @@ import { User } from './users/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { SharedModule } from './common/shared.module';
 import { Category } from './categories/entities/category.entity';
+import { Product } from './products/entities/product.entity';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { Category } from './categories/entities/category.entity';
         username: 'postgres',
         password: '123456',
         database: 'test_ecommerce_db',
-        entities: [User,Category],
+        entities: [User,Category,Product],
         synchronize: true
       }),
   UsersModule, CategoriesModule, ProductsModule, BasketsModule, OrdersModule, AuthModule,SharedModule],

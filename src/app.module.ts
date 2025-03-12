@@ -7,6 +7,7 @@ import { OrdersModule } from './orders/orders.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
+import { SharedModule } from './common/shared.module';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { AuthModule } from './auth/auth.module';
         entities: [User],
         synchronize: true
       }),
-  UsersModule, CategoriesModule, ProductsModule, BasketsModule, OrdersModule, AuthModule],
+  UsersModule, CategoriesModule, ProductsModule, BasketsModule, OrdersModule, AuthModule,SharedModule],
   controllers: [],
   providers: [],
 })

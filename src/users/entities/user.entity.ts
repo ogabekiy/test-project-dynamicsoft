@@ -1,24 +1,28 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Basket } from "src/baskets/entities/basket.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 export enum UserRole {
   USER = 'user',
   ADMIN = 'admin'
 }
 
-@Entity({name: 'users'})
+@Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({nullable: false})
+  @Column({ nullable: false })
   name: string;
 
-  @Column({ unique: true ,nullable: false })
+  @Column({ unique: true, nullable: false })
   email: string;
 
-  @Column({nullable: false})
-  password: string
+  @Column({ nullable: false })
+  password: string;
 
-  @Column({type: 'enum',enum: UserRole,default: UserRole.USER})
-  role: UserRole
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
+  role: UserRole;
+
+  @OneToMany(() => Basket, (basket) => basket.user) 
+  baskets: Basket[];
 }

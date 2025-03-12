@@ -28,7 +28,9 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    const user = this.userRepository.findOne({where:{id}})
+    const user = await this.userRepository.findOne({where:{id}})
+    console.log(user);
+    
     if(!user){
       throw new NotFoundException('user not found')
     }
@@ -36,7 +38,7 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string) {
-    const user = this.userRepository.findOne({where:{email}})
+    const user = await this.userRepository.findOne({where:{email}})
     if(!user){
       throw new NotFoundException('user not found')
     }
@@ -45,6 +47,25 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     await this.findOne(id)
+
+    if(updateUserDto.email){
+      const userData = await this.findOneByEmail(updateUserDto.email)
+      
+      if(userData){
+        if(userData.id !== id){
+          throw new ConflictException('email is used before')
+        }
+      }
+    }
+
+    if(updateUserDto.role){
+      throw new ConflictException('yu cant edit role')
+    }
+
+    if(updateUserDto.password){
+      updateUserDto.password = await bcrypt.hash(updateUserDto.password,10)
+    }
+
     const user = await this.userRepository.preload({
       id,
       ...updateUserDto,
@@ -55,6 +76,6 @@ export class UsersService {
 
   async remove(id: number) {
     await this.userRepository.delete(id)
-    return { message: `User #${id} deleted successfully` };
+    return { message: `${id} user is removed` };
   }
 }

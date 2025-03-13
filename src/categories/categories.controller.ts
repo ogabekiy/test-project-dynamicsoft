@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiConsumes, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -8,6 +9,7 @@ import { extname } from 'path';
 import { RoleGuard } from 'src/common/guards/roleGuard';
 import { Roles } from 'src/common/guards/roles.decorator';
 
+@ApiTags('Categories') 
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
@@ -15,6 +17,10 @@ export class CategoriesController {
   @UseGuards(RoleGuard)
   @Roles('admin')
   @Post()
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'add category' })
+  @ApiResponse({ status: 201, description: 'Category created successfully' })
+  @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('image', {
     storage: diskStorage({
       destination: './categories_images', 
@@ -37,11 +43,16 @@ export class CategoriesController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'view all categories' })
+  @ApiResponse({ status: 200 })
   findAll() {
     return this.categoriesService.findAll();
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'one category by id' })
+  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 404, description: 'category not found' })
   findOne(@Param('id') id: string) {
     return this.categoriesService.findOne(+id);
   }
@@ -49,6 +60,10 @@ export class CategoriesController {
   @UseGuards(RoleGuard)
   @Roles('admin')
   @Patch(':id')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'update' })
+  @ApiResponse({ status: 200, description: 'category updated successfully' })
+  @ApiResponse({ status: 400, description: 'invalid input' })
   update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
     return this.categoriesService.update(+id, updateCategoryDto);
   }
@@ -56,6 +71,10 @@ export class CategoriesController {
   @UseGuards(RoleGuard)
   @Roles('admin')
   @Delete(':id')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'remove a category' })
+  @ApiResponse({ status: 200, description: 'category deleted successfully' })
+  @ApiResponse({ status: 404, description: 'category not found 404' })
   remove(@Param('id') id: string) {
     return this.categoriesService.remove(+id);
   }

@@ -36,13 +36,5 @@ export class OrdersService {
     return await this.orderRepo.findOne({where:{id},relations:['user','product']})
   }
 
-  
 
-  // update(id: number, updateOrderDto: UpdateOrderDto) {
-  //   return `This action updates a #${id} order`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} order`;
-  // }
 }

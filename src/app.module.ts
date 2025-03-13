@@ -20,7 +20,7 @@ import { Order } from './orders/entities/order.entity';
         host: 'localhost',
         port: 5432,
         username: 'postgres',
-        password: '123456',
+        password: process.env.DB_PASSWORD,
         database: 'test_ecommerce_db',
         entities: [User,Category,Product,Basket,Order],
         synchronize: true
